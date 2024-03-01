@@ -1,0 +1,10 @@
+D:\csCode\软构作业\week1\homework2\homework2\bin\Debug\homework2.exe.config
+D:\csCode\软构作业\week1\homework2\homework2\bin\Debug\homework2.exe
+D:\csCode\软构作业\week1\homework2\homework2\bin\Debug\homework2.pdb
+D:\csCode\软构作业\week1\homework2\homework2\obj\Debug\homework2.csproj.AssemblyReference.cache
+D:\csCode\软构作业\week1\homework2\homework2\obj\Debug\homework2.Form1.resources
+D:\csCode\软构作业\week1\homework2\homework2\obj\Debug\homework2.Properties.Resources.resources
+D:\csCode\软构作业\week1\homework2\homework2\obj\Debug\homework2.csproj.GenerateResource.cache
+D:\csCode\软构作业\week1\homework2\homework2\obj\Debug\homework2.csproj.CoreCompileInputs.cache
+D:\csCode\软构作业\week1\homework2\homework2\obj\Debug\homework2.exe
+D:\csCode\软构作业\week1\homework2\homework2\obj\Debug\homework2.pdb
