@@ -11,7 +11,8 @@ namespace OrderManagement
         public Product Product { get; set; }
         public int Quantity { get; set; }
 
-        public decimal TotalPrice => Product.Price*Quantity;
+        //public decimal TotalPrice => Product.Price*Quantity;
+        public decimal TotalPrice { get =>Product.Price*Quantity; }
 
         public OrderDetails(Product product, int quantity)
         {
