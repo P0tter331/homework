@@ -40,5 +40,9 @@ namespace OrderManagement
                    OrderId == order.OrderId;
         }
 
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(OrderId);
+        }
     }
 }
