@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,6 +10,7 @@ namespace OrderManagement
 {
     public class Order
     {
+        [Key]
         public string OrderId { get; set; }
         public Customer Customer { get; set; }
         public List<OrderDetails> OrderDetails { get; set; } = new List<OrderDetails>();
@@ -23,7 +26,7 @@ namespace OrderManagement
             Customer = customer;
             OrderDetails = new List<OrderDetails>();
         }
-
+        [NotMapped]
         public decimal TotalAmount => OrderDetails.Sum(selector: od => od.TotalPrice);
 
         public void AddOrderDetail(OrderDetails orderDetail)

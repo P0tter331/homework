@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OrderManagement_UI;
 
 namespace OrderManagement
 {
@@ -18,59 +19,53 @@ namespace OrderManagement
         }
 
         // 添加订单
-        // 如果订单已存在（根据订单ID判断），则抛出异常
         public void AddOrder(Order order)
         {
-            // 检查传入的order是否为null
-            if (order == null)
+            using (var context = new OrderContext())
             {
-                throw new ArgumentNullException(nameof(order), "Order cannot be null.");
+                if (context.Orders.Any(o => o.OrderId == order.OrderId))
+                {
+                    throw new ArgumentException($"Order with ID {order.OrderId} already exists.");
+                }
+                context.Orders.Add(order);
+                context.SaveChanges();
             }
-            if (orders.Any(o=>o.OrderId==order.OrderId))
-            {
-                throw new ArgumentException($"Order with ID {order.OrderId} already exists.");
-            }
-            orders.Add(order);
         }
 
 
         // 删除订单
-        // 如果订单不存在（根据订单ID判断），则抛出异常
         public void RemoveOrder(string orderId)
         {
-            var order = orders.FirstOrDefault(o => o.OrderId == orderId);
-            if (order == null)
+            using (var context = new OrderContext())
             {
-                throw new ArgumentException($"Order with ID {orderId} does not exist.");
+                var order = context.Orders.FirstOrDefault(o => o.OrderId == orderId);
+                if (order == null)
+                {
+                    throw new ArgumentException($"Order with ID {orderId} does not exist.");
+                }
+                context.Orders.Remove(order);
+                context.SaveChanges();
             }
-            orders.Remove(order);
         }
 
         // 查询订单
-        // 支持根据订单ID、客户名、商品名、最小总金额等条件进行查询
-        // 查询结果按照订单的总金额排序
         public List<Order> QueryOrders(string orderId = null, string customerName = null, string productName = null, decimal? minTotalAmount = null)
         {
-            var query = orders.AsQueryable();
+            using (var context = new OrderContext())
+            {
+                var query = context.Orders.AsQueryable();
 
-            if (!string.IsNullOrEmpty(orderId))
-            {
-                query = query.Where(o => o.OrderId == orderId);
-            }
-            if (!string.IsNullOrEmpty(customerName))
-            {
-                query = query.Where(o => o.Customer.Name == customerName);
-            }
-            if (!string.IsNullOrEmpty(productName))
-            {
-                query = query.Where(o => o.OrderDetails.Any(d => d.Product.Name == productName));
-            }
-            if (minTotalAmount.HasValue)
-            {
-                query = query.Where(o => o.TotalAmount >= minTotalAmount.Value);
-            }
+                if (!string.IsNullOrEmpty(orderId))
+                    query = query.Where(o => o.OrderId == orderId);
+                if (!string.IsNullOrEmpty(customerName))
+                    query = query.Where(o => o.Customer.Name == customerName);
+                if (!string.IsNullOrEmpty(productName))
+                    query = query.Where(o => o.OrderDetails.Any(d => d.Product.Name == productName));
+                if (minTotalAmount.HasValue)
+                    query = query.Where(o => o.TotalAmount >= minTotalAmount.Value);
 
-            return query.OrderBy(o => o.TotalAmount).ToList();
+                return query.ToList();
+            }
         }
 
         // 排序订单
